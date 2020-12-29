@@ -52,7 +52,7 @@ const UDF_REFS: { [attr: string]: () => Promise<{ UDF_CATEGORIES?: UdfCategory[]
   generic: async () => import(/* webpackChunkName: "generic-ref" */ './generic/udfReference'),
   hive: async () => import(/* webpackChunkName: "hive-ref" */ './hive/udfReference'),
   impala: async () => import(/* webpackChunkName: "impala-ref" */ './impala/udfReference'),
-  presto: async () => import(/* webpackChunkName: "presto-ref" */ './presto/udfReference')
+  presto: async () => import(/* webpackChunkName: "presto-ref" */ './presto/udfReference'),
   pig: async () => import(/* webpackChunkName: "pig-ref" */ './pig/udfReference')
 };
 
