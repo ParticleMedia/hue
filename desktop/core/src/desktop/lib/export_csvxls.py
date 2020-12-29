@@ -28,6 +28,8 @@ import openpyxl
 import re
 import six
 import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import tablib
 
 from django.http import StreamingHttpResponse, HttpResponse

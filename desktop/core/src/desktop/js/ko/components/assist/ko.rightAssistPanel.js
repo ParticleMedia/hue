@@ -123,6 +123,7 @@ class RightAssistPanel {
         this.connector() &&
         (this.connector().dialect === 'hive' ||
           this.connector().dialect === 'impala' ||
+          this.connector().dialect === 'presto' ||
           this.connector().dialect === 'pig')
     );
     this.langRefTabAvailable = ko.pureComputed(
