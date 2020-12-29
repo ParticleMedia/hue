@@ -262,7 +262,7 @@ class SqlAlchemyApi(Api):
     if connection:
       cursor = connection['result'].cursor
       if (self.options['url'].startswith('presto://')
-          and cursor and cursor._state == cursor._STATE_RUNNING):
+          and cursor and cursor.poll()):
         response['status'] = 'running'
       elif snippet['result']['handle']['has_result_set']:
         response['status'] = 'available'
@@ -280,7 +280,10 @@ class SqlAlchemyApi(Api):
       handle = CONNECTIONS.get(guid)
       if not handle:
         return 50
-      stats = handle['result'].cursor.poll()
+      try:
+        stats = handle['result'].cursor.poll()
+      except AssertionError:
+        pass
       if not stats:
         return 100
       stats = stats.get('stats', {})
