@@ -283,7 +283,7 @@ class SqlAlchemyApi(Api):
       try:
         stats = handle['result'].cursor.poll()
       except AssertionError:
-        pass
+        stats = None
       if not stats:
         return 100
       stats = stats.get('stats', {})
