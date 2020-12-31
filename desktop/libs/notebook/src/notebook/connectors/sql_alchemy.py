@@ -275,20 +275,21 @@ class SqlAlchemyApi(Api):
 
   @query_error_handler
   def progress(self, notebook, snippet, logs=''):
+    progress = 50
     if self.options['url'].startswith('presto://'):
       guid = snippet['result']['handle']['guid']
       handle = CONNECTIONS.get(guid)
-      if not handle:
-        return 50
+      stats = None
+      progress = 100
       try:
-        stats = handle['result'].cursor.poll()
+        if handle and handle['result'].cursor:
+          stats = handle['result'].cursor.poll()
       except AssertionError:
-        stats = None
-      if not stats:
-        return 100
-      stats = stats.get('stats', {})
-      return stats.get('completedSplits', 0) * 100 // stats.get('totalSplits', 1)
-    return 50
+        pass
+      if stats:
+        stats = stats.get('stats', {})
+        progress = stats.get('completedSplits', 0) * 100 // stats.get('totalSplits', 1)
+    return progress
 
   @query_error_handler
   def fetch_result(self, notebook, snippet, rows, start_over):
